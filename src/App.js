@@ -23,12 +23,15 @@ class App extends Component {
     this.handlePlayerSubmit = this.handlePlayerSubmit.bind(this);
   };
 
+  // this simply grabs the 'value' of the text box with each event and updates the state for that
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
       [name]: value
     })
   }
+
+  // Here we create a new object and push it onto a newPlayerList object then set state and reset the text boxes
 
   handlePlayerSubmit = event => {
     event.preventDefault();
@@ -44,9 +47,13 @@ class App extends Component {
       playerList: newPlayerList,
       playerName: "",
       playerInitiative: 0
-    })
+    });
+
+    // Here is where I need to add the code to create the initiative Box for the 'playerlist' as it gets made
+    // In those boxes the user can see the values they've put in and would be able to alter them if needed.
   };
 
+  // Same deal with the handle player submit.  Creates the object to store in the state for the enemy
   handleEnemySubmit = event => {
     event.preventDefault();
     let enemy = {
@@ -61,9 +68,12 @@ class App extends Component {
       enemyList: newEnemyList,
       enemyName: "",
       enemyInitiative: 0
-    })
+    });
+
+    // Again will add a portion to create a card to show what has been submitted
   };
 
+  // This will eventually minimize the UI for adding actors, this will also organize the overall list by initiative order and display it on screen
   handleFinalSubmit = event => {
     event.preventDefault();
 

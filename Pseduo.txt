@@ -1,0 +1,24 @@
+General Description:
+
+A simple, mobile focused site for tracking initiative.
+
+Begins with a basic input form sort of thing, as the user adds actors to the combat it displays a list below (minified) so that they know what has already been added.  
+After the User has added all actors they hit the "Begin Battle" button and this orders the actors by initiative and displays which actor is "Up."
+
+Hopefully is simple and easy enough to input so as to be not a hassle to enter all the info
+
+Use localStorage and such to store PlayerList info
+
+Make altering initiative simple/easy to do.
+
+Concept 1 for display during the "battle" portion:
+    - One large 'Current Actor" card is displayed at a time
+    - Smaller "ondeck" card below
+    - initiative counter at the top right
+    - Button to advance turns one at a time (so you simply hit the button when your turn is over and it is the next turn)
+    - Minified list/side Nav with list for the rest of the order
+
+Concept 2:
+    - A trio of cards (At bat, on deck, warming up) stacked on  right 2/3rds of the screen
+    - Full list in order on the left 1/3
+    - Button to advance the right side trio (ideally on click for right side advances)
