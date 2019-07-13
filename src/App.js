@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Card from './initiativeCard';
 
 class App extends Component {
 
@@ -14,7 +15,8 @@ class App extends Component {
       enemyNumber: 0,
       playerList: [],
       enemyList: [],
-      order: []
+      order: [],
+      started: false
     };
     // I'm going to make the state smaller but I'm gonna keep the various handleSubmit functions to make sure it doesn't mix up a player name and enemy initiative or various other combos
     this.handleEnemySubmit = this.handleEnemySubmit.bind(this);
@@ -26,9 +28,16 @@ class App extends Component {
   // this simply grabs the 'value' of the text box with each event and updates the state for that
   handleInputChange = event => {
     const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    })
+    if (name === "playerInitiative" || name === "enemyInitiative") {
+      let newValue = parseInt(value);
+      this.setState({
+        [name]: newValue
+      })
+    } else {
+      this.setState({
+        [name]: value
+      })
+    }
   }
 
   // Here we create a new object and push it onto a newPlayerList object then set state and reset the text boxes
@@ -77,65 +86,95 @@ class App extends Component {
   handleFinalSubmit = event => {
     event.preventDefault();
 
+    console.log('Handle Final Started');
+    let order = [];
+
+    for (let i = 0; i < this.state.enemyList.length; i++) {
+      order.push(this.state.enemyList[i]);
+    }
+
+    for (let i = 0; i < this.state.playerList.length; i++) {
+      order.push(this.state.playerList[i]);
+    }
+
+    let newOrder = order.sort((obj1, obj2) => (obj2.initiative - obj1.initiative));
+
+    this.setState({
+      order: newOrder,
+      started: true
+    });
+
+    console.log(order);
+    console.log(newOrder);
     console.log(this.state.playerList);
     console.log(this.state.enemyList);
   }
 
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Add your characters and your enemies below!
+    if (this.state.started) {
+      return (
+        <div>
+          {this.state.order.map((item, index) => (
+            <Card key={index} name={item.name} initiative={item.initiative} />
+          ))}
+        </div>
+      )
+    } else {
+      return (
+        <div className="App">
+          <header className="App-header">
+            <p>
+              Add your characters and your enemies below!
         </p>
-        </header>
-        <h1>Player Entry</h1>
-        <form>
-          <div className="row">
-            <div className="col-6">
-              <input
-                value={this.state.playerName}
-                onChange={this.handleInputChange}
-                name="playerName"
-                type="text"
-                className="form-control" placeholder="Player Name" />
+          </header>
+          <h1>Player Entry</h1>
+          <form>
+            <div className="row">
+              <div className="col-6">
+                <input
+                  value={this.state.playerName}
+                  onChange={this.handleInputChange}
+                  name="playerName"
+                  type="text"
+                  className="form-control" placeholder="Player Name" />
+              </div>
+              <div className="col-6">
+                <input
+                  value={this.state.playerInitiative}
+                  onChange={this.handleInputChange}
+                  name="playerInitiative"
+                  type="number"
+                  className="form-control" placeholder="Initiative Score" />
+              </div>
             </div>
-            <div className="col-6">
-              <input
-                value={this.state.playerInitiative}
-                onChange={this.handleInputChange}
-                name="playerInitiative"
-                type="number"
-                className="form-control" placeholder="Initiative Score" />
+            <button onClick={this.handlePlayerSubmit} type="submit" className="btn btn-primary">Add Player</button>
+          </form>
+          <h1>Enemy Entry</h1>
+          <form>
+            <div className="row">
+              <div className="col-6">
+                <input
+                  value={this.state.enemyName}
+                  onChange={this.handleInputChange}
+                  name="enemyName"
+                  type="text"
+                  className="form-control" placeholder="Enemy" />
+              </div>
+              <div className="col-6">
+                <input
+                  value={this.state.enemyInitiative}
+                  onChange={this.handleInputChange}
+                  name="enemyInitiative" type="number" className="form-control" placeholder="Initiative Score" />
+              </div>
             </div>
-          </div>
-          <button onClick={this.handlePlayerSubmit} type="submit" className="btn btn-primary">Add Player</button>
-        </form>
-        <h1>Enemy Entry</h1>
-        <form>
-          <div className="row">
-            <div className="col-6">
-              <input
-                value={this.state.enemyName}
-                onChange={this.handleInputChange}
-                name="playerName"
-                type="text"
-                className="form-control" placeholder="Enemy" />
-            </div>
-            <div className="col-6">
-              <input
-                value={this.state.enemyInitiative}
-                onChange={this.handleInputChange}
-                name="enemyInitiative" type="number" className="form-control" placeholder="Initiative Score" />
-            </div>
-          </div>
-          <button onClick={this.handleEnemySubmit}
-          type="submit" className="btn btn-primary">Sign in</button>
-        </form>
-        <br />
-        <button onClick={this.handleFinalSubmit} type="submit" className="btn btn-primary">Sign in</button>
-      </div>
-    );
+            <button onClick={this.handleEnemySubmit}
+              type="submit" className="btn btn-primary">Add Enemy</button>
+          </form>
+          <br />
+          <button onClick={this.handleFinalSubmit} type="submit" className="btn btn-primary">Begin</button>
+        </div>
+      );
+    }
   }
 }
 
