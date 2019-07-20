@@ -111,7 +111,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.started) {
+    if (this.state.started && (this.state.order.length > 0)) {
       return (
         <div>
           {this.state.order.map((item, index) => (
@@ -127,51 +127,101 @@ class App extends Component {
               Add your characters and your enemies below!
         </p>
           </header>
-          <h1>Player Entry</h1>
-          <form>
+          <div className="container">
             <div className="row">
               <div className="col-6">
-                <input
-                  value={this.state.playerName}
-                  onChange={this.handleInputChange}
-                  name="playerName"
-                  type="text"
-                  className="form-control" placeholder="Player Name" />
+                <h1>Player Entry</h1>
+                <form>
+                  <div className="row justify-content-center">
+                    <input
+                      value={this.state.playerName}
+                      onChange={this.handleInputChange}
+                      name="playerName"
+                      type="text"
+                      className="form-control" placeholder="Player Name" />
+                  </div>
+                  <div className="row justify-content-center">
+                    <input
+                      value={this.state.playerInitiative}
+                      onChange={this.handleInputChange}
+                      name="playerInitiative"
+                      type="number"
+                      className="form-control" placeholder="Initiative Score" />
+                  </div>
+                  <div className="row justify-content-center">
+                    <button onClick={this.handlePlayerSubmit} type="submit" className="btn btn-primary">Add Player</button>
+                  </div>
+                </form>
               </div>
               <div className="col-6">
-                <input
-                  value={this.state.playerInitiative}
-                  onChange={this.handleInputChange}
-                  name="playerInitiative"
-                  type="number"
-                  className="form-control" placeholder="Initiative Score" />
+                <h1>Enemy Entry</h1>
+                <form>
+                  <div className="row justify-content-center">
+                    <input
+                      value={this.state.enemyName}
+                      onChange={this.handleInputChange}
+                      name="enemyName"
+                      type="text"
+                      className="form-control" placeholder="Enemy" />
+                  </div>
+                  <div className="row justify-content-center">
+                    <input
+                      value={this.state.enemyInitiative}
+                      onChange={this.handleInputChange}
+                      name="enemyInitiative" type="number" className="form-control" placeholder="Initiative Score" />
+                  </div>
+                  <div className="row justify-content-center">
+                    <button onClick={this.handleEnemySubmit}
+                      type="submit" className="btn btn-primary">Add Enemy</button>
+                  </div>
+                </form>
+
               </div>
             </div>
-            <button onClick={this.handlePlayerSubmit} type="submit" className="btn btn-primary">Add Player</button>
-          </form>
-          <h1>Enemy Entry</h1>
-          <form>
-            <div className="row">
-              <div className="col-6">
-                <input
-                  value={this.state.enemyName}
-                  onChange={this.handleInputChange}
-                  name="enemyName"
-                  type="text"
-                  className="form-control" placeholder="Enemy" />
-              </div>
-              <div className="col-6">
-                <input
-                  value={this.state.enemyInitiative}
-                  onChange={this.handleInputChange}
-                  name="enemyInitiative" type="number" className="form-control" placeholder="Initiative Score" />
-              </div>
+
+            <br />
+            <div className="row justify-content-center">
+              <button onClick={this.handleFinalSubmit} type="submit" className="btn btn-primary">Begin</button>
             </div>
-            <button onClick={this.handleEnemySubmit}
-              type="submit" className="btn btn-primary">Add Enemy</button>
-          </form>
+          </div>
           <br />
-          <button onClick={this.handleFinalSubmit} type="submit" className="btn btn-primary">Begin</button>
+          <div className="container-fluid">
+            <div className="row justify-content-around">
+              <div className="col">
+                <table className="table">
+                  <thead className="thead-dark">
+                    <tr>
+                      <th>Name</th>
+                      <th>Initiative</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.playerList.map((item, index) => (<tr key={index}>
+                      <td>{item.name}</td>
+                      <td>{item.initiative}</td>
+                    </tr>))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="col">
+                <table className="table">
+                  <thead className="thead-dark">
+                    <tr>
+                      <th>Name</th>
+                      <th>Initiative</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.enemyList.map((item, index) => (<tr key={index}>
+                      <td>{item.name}</td>
+                      <td>{item.initiative}</td>
+                    </tr>))}
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       );
     }
