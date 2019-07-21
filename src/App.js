@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Card from './initiativeCard';
+import Card from './Components/initiativeCard';
+import PlayerEntry from './Components/playerEntry';
 
 class App extends Component {
 
@@ -130,7 +131,13 @@ class App extends Component {
           <div className="container">
             <div className="row">
               <div className="col-6">
-                <h1>Player Entry</h1>
+                <PlayerEntry 
+                  name={this.state.playerName}
+                  initiative={this.state.playerInitiative}
+                  handleSubmit={this.handlePlayerSubmit}
+                  handleChange={this.handleInputChange}
+                  />
+                {/* <h1>Player Entry</h1>
                 <form>
                   <div className="row justify-content-center">
                     <input
@@ -151,7 +158,7 @@ class App extends Component {
                   <div className="row justify-content-center">
                     <button onClick={this.handlePlayerSubmit} type="submit" className="btn btn-primary">Add Player</button>
                   </div>
-                </form>
+                </form> */}
               </div>
               <div className="col-6">
                 <h1>Enemy Entry</h1>
